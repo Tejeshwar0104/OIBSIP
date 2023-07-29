@@ -1,0 +1,71 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+data1 = pd.read_csv("C:/Users/WELCOME/OneDrive/Documents/INTERNSHIP/Unemployment in India.csv")
+data1
+
+data2 = pd.read_csv("C:/Users/WELCOME/OneDrive/Documents/INTERNSHIP/Unemployment_Rate_upto_11_2020.csv")
+data2
+
+data1.isnull().sum()
+
+data=data1.dropna()
+data
+
+data.isnull().sum()
+
+data2.isnull().sum()
+
+data2.drop(['Region.1','longitude','latitude'],axis =1,inplace = True)
+data2
+
+data[['day','month','year']] = data[' Date'].str.split('-',expand = True)
+data['day'] = data['day'].astype(int)
+data['month'] = data['month'].astype(int)
+data['year'] = data['year'].astype(int)
+
+data
+
+data.drop([' Date'],axis =1, inplace = True)
+data
+
+data2[['day','month','year']] = data2[' Date'].str.split('-',expand = True)
+data2['day'] = data2['day'].astype(int)
+data2['month'] = data2['month'].astype(int)
+data2['year'] = data2['year'].astype(int)
+
+data2.drop([' Date'],axis = 1,inplace = True)
+data2
+
+data.columns
+
+data.drop(['Area'],axis = 1, inplace = True)
+data
+
+new_data = pd.concat([data,data2])
+new_data
+
+plt.bar(new_data['year'],new_data[' Estimated Unemployment Rate (%)'] , color = 'violet')
+plt.xlabel("Years")
+plt.ylabel("Unemployment rate")
+
+plt.bar(new_data['month'],new_data[' Estimated Unemployment Rate (%)'])
+plt.xlabel("Months")
+plt.ylabel("Unemployment rate")
+
+plt.figure(figsize = (35,15))
+plt.bar(new_data['Region'],new_data[' Estimated Unemployment Rate (%)'],color = 'purple')
+plt.xlabel("Region")
+plt.ylabel("Unemployment rate")
+plt.show()
+
+plt.figure(figsize = (35,15))
+plt.bar(new_data['Region'],new_data[' Estimated Employed'], color = 'orange')
+plt.xlabel("Regions")
+plt.ylabel("Employed")
+
+sns.barplot(x=new_data['year'],y=new_data[' Estimated Employed'],color = 'black', edgecolor = 'red')
+
+new_data.describe()
