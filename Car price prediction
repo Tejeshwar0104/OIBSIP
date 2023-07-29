@@ -1,0 +1,59 @@
+CODE FOR TASK 3:
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.metrics import r2_score
+from sklearn.linear_model import LinearRegression
+
+data = pd.read_csv("C:/Users/WELCOME/OneDrive/Documents/INTERNSHIP/CarPrice.csv")
+data
+
+data.drop(['car_ID','symboling'],axis = 1,inplace = True)
+
+data.isnull().sum()
+
+data.describe()
+
+data.info()
+
+plt.scatter(data['horsepower'],data['price'])
+plt.xlabel('Horse Power')
+plt.ylabel('Price (in Rs)')
+
+plt.bar(data['citympg'],data['price'])
+plt.xlabel('City MPG')
+plt.ylabel('Price (in Rs)')
+
+plt.bar(data['highwaympg'],data['price'])
+plt.xlabel('Highway MPG')
+plt.ylabel('Price (in Rs)')
+
+X = data.drop(columns = 'price')
+Y = data['price']
+
+labelencoder = LabelEncoder()
+X = X.apply(labelencoder.fit_transform)
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.25, random_state=50)
+
+model = DecisionTreeRegressor()
+model.fit(X_train,Y_train)
+
+pred = model.predict(X_test)
+pred
+
+r2 = r2_score(Y_test,pred)
+r2
+
+lin_model = LinearRegression()
+
+lin_model.fit(X_train,Y_train)
+
+lin_pred = model.predict(X_test)
+lin_pred
+
+lin_r2 = r2_score(Y_test,lin_pred)
+print("The R2 score of the linear regression model: ",lin_r2)
