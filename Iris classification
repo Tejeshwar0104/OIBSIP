@@ -1,0 +1,35 @@
+CODE FOR TASK 5:
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+
+data = pd.read_csv("C:/Users/WELCOME/Downloads/Iris.csv")
+data
+
+data.isnull().sum()
+
+data.drop(['Id'],axis = 1,inplace = True)
+data
+
+X = data[['SepalLengthCm','SepalWidthCm','PetalLengthCm','PetalWidthCm']]
+Y = data['Species']
+
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.3,random_state = 50)
+
+model = LogisticRegression()
+
+model.fit(X_train,Y_train)
+
+pred = model.predict(X_test)
+pred
+
+accuracy = accuracy_score(Y_test,pred)
+print("The accuracy of the model is: ",accuracy)
+
+class_report = classification_report(Y_test,pred)
+print("The classification report of the model is:\n ",class_report)
+
+example = pd.DataFrame({'SepalLengthCm': [5.2], 'SepalWidthCm':[3.2],'PetalLengthCm':[1.5],'PetalWidthCm':[0.8]})
+model.predict(example)
